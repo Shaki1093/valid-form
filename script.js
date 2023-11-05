@@ -5,6 +5,7 @@ const pass = document.getElementById('password');
 const btn = document.getElementById('button');
 const form = document.getElementById('form');
 const errorElement = document.getElementById('error');
+const formToJson = document.querySelector('.form');
 
 const red = document.querySelector(".input");
 
@@ -37,3 +38,22 @@ form.addEventListener('submit', (e) => {
         errorElement.innerHTML = message.join(', ');
     }
 })
+
+formToJson.addEventListener('submit', event =>{
+    event.preventDefault();
+
+    const formData = new FormData(formToJson);
+    const data = Object.fromEntries(formData);
+
+    console.log(data);
+    fetch('https://reqres.in/api/users'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }.then(res => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error));
+});
+
